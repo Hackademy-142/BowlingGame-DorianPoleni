@@ -1,6 +1,15 @@
 //Esercizio bowling replicato in classe
 
 //Global Tag Declaration
+btnAddPlayer = document.querySelector("#btnAddPlayer");
+playerName = document.querySelector("#playerName");
+startGame = document.querySelector("#startGame");
+resetGame = document.querySelector("#resetGame");
+tabPlayerscontainer = document.querySelector("#tabPlayerscontainer");
+
+
+
+
 const bowling = {
     //Current players
     "players" : [],
@@ -36,12 +45,6 @@ const bowling = {
         console.log(`The winner is: ${winnerName} with ${winnerScore} points.`)
     },
     
-    //Create a new player (call it how many times how many players you have)
-    "createNewPlayer": function(){
-        let newPlayerName = prompt("insert new player name");
-        this.players.push( {"name" : newPlayerName , "scores" : [] , "totalScore" : 0} )
-    },
-    
     //Create players ranking
     "ranking" : function() {         
         let rankedPlayers = this.players.map( (pl) => ({...pl}) ); 
@@ -59,10 +62,82 @@ const bowling = {
 } //bowling
 
 
-//Main
-bowling.createNewPlayer();
-bowling.createNewPlayer();
-bowling.createNewPlayer();
+//Main Program
+
+//Add new player
+btnAddPlayer.addEventListener("click", () => {
+    let newPlayerName = playerName.value;
+    bowling.players.push( {"name" : newPlayerName , "scores" : [] , "totalScore" : 0} );
+    console.log(bowling.players);
+    playerName.value = "";
+    
+    let tr = document.createElement("tr");
+    tr.innerHTML = 
+    `<tr id="tableRow">
+    <th scope="row">${newPlayerName}</th>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    <td>0</td>
+    </tr>`
+    tabPlayerscontainer.appendChild(tr);    
+})
+
+
+//Play a round
+startGame.addEventListener("click", () => {
+    bowling.players.forEach( (nPlayer) => {
+        for (let i = 0; i < 10; i++) {
+            nPlayer.scores.push(random1_10());
+        }
+        
+        let tr = document.createElement("tr");
+        tr.innerHTML = 
+        `<tr id="tableRow">
+        <th scope="row">${newPlayerName}</th>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        </tr>`
+        tabPlayerscontainer.appendChild(tr);    
+        
+        
+        
+        
+        
+    }
+    )
+})
+
+
+
+
+//Reset Game
+resetGame.addEventListener("click", () => {
+    bowling.players = [];
+    console.log(bowling.players);
+})
+
+
+
+
+
+
 
 bowling.setScore();
 bowling.setTotalScore();
