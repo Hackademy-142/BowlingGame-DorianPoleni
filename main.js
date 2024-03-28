@@ -16,19 +16,20 @@ const bowling = {
     
     //Create New Player
     "createPlayer" : function(playerName) {
-        let newPlayerName = playerName;
-        this.players.push( {"name" : newPlayerName , "scores" : [] , "totalScore" : 0} );
+        // let newPlayerName = playerName;
+        this.players.push( {"name" : playerName , "scores" : [] , "totalScore" : 0} );
         console.log(this.players);
     },
-
-        //Create Table
+    
+    //Create Table
     "createTable" : function() {
+        tabPlayerscontainer.innerHTML = "";
+        
         this.players.forEach( (player,i) => {
             let playerRow = document.createElement("tr");
-
-            tabPlayerscontainer.innerHTML = ""
+            
             // tabPlayerscontainer.appendChild(playerRow);
-
+            
             playerRow.innerHTML = `
             <th scope="row">${i + 1}</th>                            
             <td>${player.name}</td>                            
@@ -48,7 +49,7 @@ const bowling = {
             
         }    )
     },
-
+    
     //Set players score randomly
     "setScore" : function() {
         this.players.forEach( (nPlayer) => {
@@ -100,23 +101,19 @@ const bowling = {
 //Main Program
 
 //Add new player
-btnAddPlayer.addEventListener("click", () => {
-
+btnAddPlayer.addEventListener("click", ()=> {
     bowling.createPlayer(playerName.value);
     playerName.value = "";
-     
-})
+    bowling.createTable();
+});
+
+// });
 
 let roundCounter = 0;
 
 //Play a round
 startGame.addEventListener("click", () => {
     bowling.createTable();
-    
-    
-    
-    
-    
     
     // bowling.players.forEach( (nPlayer) => {       
     //     if (roundCounter < 10){
@@ -127,22 +124,19 @@ startGame.addEventListener("click", () => {
     //         tabPlayerscontainer.appendChild(th);   
     //         roundCounter ++;
     //     }
-        
+    
     //     console.log(nPlayer);
     //     console.log(roundCounter);
-        
+    
     // }
     // )
 })
 
-
-
-
 //Reset Game
-resetGame.addEventListener("click", () => {
-    bowling.players = [];
-    console.log(bowling.players);
-})
+// resetGame.addEventListener("click", () => {
+//     bowling.players = [];
+//     console.log(bowling.players);
+// })
 
 
 
@@ -150,12 +144,12 @@ resetGame.addEventListener("click", () => {
 
 
 
-bowling.setScore();
-bowling.setTotalScore();
+// bowling.setScore();
+// bowling.setTotalScore();
 
-bowling.declareWinner();
+// bowling.declareWinner();
 
-bowling.ranking();
+// bowling.ranking();
 
 
 
