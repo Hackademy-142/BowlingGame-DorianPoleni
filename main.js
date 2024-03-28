@@ -1,10 +1,11 @@
-//Esercizio bowling replicato in classe
+// *** Esercizio bowling replicato in classe ***
 
-//Global Tag Declaration
+// *** Global Tag Declaration ***
 btnAddPlayer = document.querySelector("#btnAddPlayer");
 playerName = document.querySelector("#playerName");
-startGame = document.querySelector("#startGame");
-resetGame = document.querySelector("#resetGame");
+btnStartGame = document.querySelector("#btnStartGame");
+btnPlayRound = document.querySelector("#btnPlayRound");
+btnResetGame = document.querySelector("#btnResetGame");
 tabPlayerscontainer = document.querySelector("#tabPlayerscontainer");
 
 
@@ -18,6 +19,7 @@ const bowling = {
     "createPlayer" : function(playerName) {
         // let newPlayerName = playerName;
         this.players.push( {"name" : playerName , "scores" : [] , "totalScore" : 0} );
+        this.createTable();
         console.log(this.players);
     },
     
@@ -27,8 +29,6 @@ const bowling = {
         
         this.players.forEach( (player,i) => {
             let playerRow = document.createElement("tr");
-            
-            // tabPlayerscontainer.appendChild(playerRow);
             
             playerRow.innerHTML = `
             <th scope="row">${i + 1}</th>                            
@@ -43,7 +43,7 @@ const bowling = {
             <td>${player.scores[7] ? player.scores[7] : 0}</td>
             <td>${player.scores[8] ? player.scores[8] : 0}</td>
             <td>${player.scores[9] ? player.scores[9] : 0}</td>
-            <td>0</td>
+            <td>${player.totalScore}</td>
             `
             tabPlayerscontainer.appendChild(playerRow);
             
@@ -51,13 +51,23 @@ const bowling = {
     },
     
     //Set players score randomly
-    "setScore" : function() {
+    "playRound" : function() {
         this.players.forEach( (nPlayer) => {
-            for (let i = 0; i < 10; i++) {
-                nPlayer.scores.push(random1_10());
+            if (nPlayer.scores.length < 10){
+                playerScoreTemp = random1_10();
+                nPlayer.scores.push(playerScoreTemp);
+                console.log(playerScoreTemp);
+                this.createTable();
+                if (playerScoreTemp == 10){
+                    let strike = true;
+                }
             }
         }
         )
+    },
+
+    "startGame" : function() {
+        btnAddPlayer.classList.add("d-none");
     },
     
     //Set player's total score
@@ -98,13 +108,12 @@ const bowling = {
 } //bowling
 
 
-//Main Program
+// *** Main Program ***
 
 //Add new player
 btnAddPlayer.addEventListener("click", ()=> {
     bowling.createPlayer(playerName.value);
     playerName.value = "";
-    bowling.createTable();
 });
 
 // });
@@ -112,48 +121,20 @@ btnAddPlayer.addEventListener("click", ()=> {
 let roundCounter = 0;
 
 //Play a round
-startGame.addEventListener("click", () => {
-    bowling.createTable();
-    
-    // bowling.players.forEach( (nPlayer) => {       
-    //     if (roundCounter < 10){
-    //         nPlayer.scores.push(random1_10()) ;
-    //         let th = document.createElement("th");
-    //         th.innerHTML = 
-    //         `<td>${nPlayer.scores[roundCounter]}</td>`
-    //         tabPlayerscontainer.appendChild(th);   
-    //         roundCounter ++;
-    //     }
-    
-    //     console.log(nPlayer);
-    //     console.log(roundCounter);
-    
-    // }
-    // )
+btnStartGame.addEventListener("click", () => {
+    bowling.playRound();
+    bowling.setTotalScore();
+    bowling.startGame();
 })
 
 //Reset Game
-// resetGame.addEventListener("click", () => {
+// btnResetGame.addEventListener("click", () => {
 //     bowling.players = [];
 //     console.log(bowling.players);
 // })
 
 
-
-
-
-
-
-// bowling.setScore();
-// bowling.setTotalScore();
-
-// bowling.declareWinner();
-
-// bowling.ranking();
-
-
-
-//Functions
+// *** Functions ***
 function random1_10() {
     return Math.round( Math.random() * (10 - 0) + 0 );
 }
