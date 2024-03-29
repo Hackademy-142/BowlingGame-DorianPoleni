@@ -69,6 +69,12 @@ const bowling = {
     "startGame" : function() {
         btnAddPlayer.classList.add("d-none");
     },
+
+    "resetGame" : function() {
+        this.players = [];
+        btnAddPlayer.classList.remove("d-none");
+        this.createTable(); 
+    },
     
     //Set player's total score
     "setTotalScore" : function() {
@@ -118,20 +124,24 @@ btnAddPlayer.addEventListener("click", ()=> {
 
 // });
 
-let roundCounter = 0;
+//Start Game
+btnStartGame.addEventListener("click", () => {
+    bowling.startGame();
+})
 
 //Play a round
-btnStartGame.addEventListener("click", () => {
+let roundCounter = 0;
+btnPlayRound.addEventListener("click", () => {
     bowling.playRound();
     bowling.setTotalScore();
     bowling.startGame();
 })
 
 //Reset Game
-// btnResetGame.addEventListener("click", () => {
-//     bowling.players = [];
-//     console.log(bowling.players);
-// })
+btnResetGame.addEventListener("click", () => {
+    bowling.resetGame();
+    console.log(bowling.players);
+})
 
 
 // *** Functions ***
