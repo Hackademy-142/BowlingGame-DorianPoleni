@@ -7,7 +7,9 @@ btnStartGame = document.querySelector("#btnStartGame");
 btnPlayRound = document.querySelector("#btnPlayRound");
 btnResetGame = document.querySelector("#btnResetGame");
 tabPlayerscontainer = document.querySelector("#tabPlayerscontainer");
+winnerPlayer = document.querySelector("#winnerPlayer");
 
+let gameFinished = false;
 
 
 
@@ -54,33 +56,46 @@ const bowling = {
     "playRound" : function() {
         this.players.forEach( (nPlayer) => {
             if (nPlayer.scores.length < 10){
-                playerScoreTemp = random1_10();
+                let playerScoreTemp = random1_10();
                 nPlayer.scores.push(playerScoreTemp);
                 console.log(playerScoreTemp);
+                this.setTotalScore();
                 this.createTable();
                 if (playerScoreTemp == 10){
                     let strike = true;
+                    console.log(`player ${nPlayer.name} striked.`);
                 }
             }
+         
+            if ((nPlayer.scores.length == 10) && (gameFinished == false)){
+                this.declareWinner();
+                gameFinished = true;
+            }
+            
         }
         )
     },
-
+    
     "startGame" : function() {
         btnAddPlayer.classList.add("d-none");
+        btnPlayRound.classList.remove("d-none");
+        btnStartGame.classList.add("d-none");
     },
-
+    
     "resetGame" : function() {
         this.players = [];
         btnAddPlayer.classList.remove("d-none");
         this.createTable(); 
+        btnStartGame.classList.remove("d-none");
+        btnPlayRound.classList.add("d-none");
+        gameFinished = false;
     },
     
     //Set player's total score
     "setTotalScore" : function() {
         this.players.forEach( (nPlayer) =>
         nPlayer.totalScore = nPlayer.scores.reduce( (acc,cur) => acc + cur , 0 )
-        );  
+        );
     },
     
     //Declare games winner
@@ -94,7 +109,12 @@ const bowling = {
             }
         }
         )
-        console.log(`The winner is: ${winnerName} with ${winnerScore} points.`)
+        
+        console.log(`The winner is: ${winnerName} with ${winnerScore} points.`);
+        let wp = document.createElement("div");
+        wp.innerHTML = `${winnerName}`;
+        winnerPlayer.appendChild(wp);
+        
     },
     
     //Create players ranking
@@ -133,7 +153,7 @@ btnStartGame.addEventListener("click", () => {
 let roundCounter = 0;
 btnPlayRound.addEventListener("click", () => {
     bowling.playRound();
-    bowling.setTotalScore();
+    // bowling.setTotalScore();
     bowling.startGame();
 })
 
