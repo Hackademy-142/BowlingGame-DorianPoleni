@@ -8,11 +8,12 @@ btnPlayRound = document.querySelector("#btnPlayRound");
 btnResetGame = document.querySelector("#btnResetGame");
 tabPlayerscontainer = document.querySelector("#tabPlayerscontainer");
 winnerPlayer = document.querySelector("#winnerPlayer");
+winnerModal = document.querySelector("#exampleModal");
 
 let gameFinished = false;
 
 
-
+//Bowling Object
 const bowling = {
     //Current players
     "players" : [],
@@ -109,12 +110,17 @@ const bowling = {
             }
         }
         )
+
+        // winnerModal.classList.add("show");
+        // winnerModal.style.display = "block";
+
         
         console.log(`The winner is: ${winnerName} with ${winnerScore} points.`);
         let wp = document.createElement("div");
         wp.innerHTML = `${winnerName}`;
         winnerPlayer.appendChild(wp);
         
+        winnerModal.setAttribute("data-bs-toggle","modal");
     },
     
     //Create players ranking
@@ -131,7 +137,7 @@ const bowling = {
     }
     
     
-} //bowling
+} 
 
 
 // *** Main Program ***
@@ -141,8 +147,6 @@ btnAddPlayer.addEventListener("click", ()=> {
     bowling.createPlayer(playerName.value);
     playerName.value = "";
 });
-
-// });
 
 //Start Game
 btnStartGame.addEventListener("click", () => {
